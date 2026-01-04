@@ -7,10 +7,21 @@
 
    color-scheme: light dark;
    color: rgba(0, 0, 0, 0.87);
-   background-color: #242424;
+   background-color: #f1e9e9;
 
    font-synthesis: none;
    text-rendering: optimizeLegibility;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
+
+   input[type='number']::-webkit-inner-spin-button,
+   input[type='number']::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+   }
+
+   input[type='number'] {
+      appearance: textfield; /* standard */
+      -moz-appearance: textfield; /* Firefox */
+   }
 }
