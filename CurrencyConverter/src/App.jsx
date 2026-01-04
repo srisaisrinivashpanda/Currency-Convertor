@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { InputBox, SwapBtn, Wrapper } from './components';
 import useCurrencyInfo from '../../src/hooks/useCurrencyInfo';
-import convert from './hooks/convertCurrency';
 
 export default function App() {
    const [amount, setAmount] = useState(0);
@@ -11,6 +10,7 @@ export default function App() {
 
    const currencyInfo = useCurrencyInfo(fromCurrency);
    const options = Object.keys(currencyInfo);
+   const rate = currencyInfo[toCurrency] ?? 1;
 
    return (
       <Wrapper>
@@ -19,7 +19,7 @@ export default function App() {
             amount={amount}
             onAmountChange={(amount) => {
                setAmount(amount);
-               convert(setConvertedAmount, amount, currencyInfo, toCurrency);
+               setConvertedAmount(amount * rate);
             }}
             currencyOptions={options}
             selectCurrency={fromCurrency}
@@ -35,13 +35,15 @@ export default function App() {
          <InputBox
             label="To"
             amount={convertedAmount}
-            onAmountChange={(convertedAmount) =>
-               setConvertedAmount(convertedAmount)
-            }
+            onAmountChange={(convertedAmount) => {
+               setConvertedAmount(convertedAmount);
+               setAmount(convertedAmount / rate);
+            }}
             currencyOptions={options}
             selectCurrency={toCurrency}
             onCurrencyChange={(toCurrency) => {
                setToCurrency(toCurrency);
+               convert(setAmount, convertedAmount, currencyInfo, fromCurrency);
             }}
             className="w-full mt-1"
          />
